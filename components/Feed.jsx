@@ -29,7 +29,9 @@ const Feed = () => {
     debounceChange(e.target.value);
   }
 
-
+  const handleTagClick = (tagName) => {
+    setSearchText(tagName)
+  }
 
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt");
@@ -66,12 +68,12 @@ const Feed = () => {
         searchText ? (
           <PromptCardList
             data={ searchResults }
-            handleTagClick={ () => { } }
+            handleTagClick={ handleTagClick }
           />
         ) : (
           <PromptCardList
             data={ allPosts }
-            handleTagClick={ () => { } }
+            handleTagClick={ handleTagClick }
           />
         )
       }
