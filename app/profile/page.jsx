@@ -21,7 +21,6 @@ const MyProfile = () => {
 
     const handleEdit = (post) => {
         router.push(`/update-prompt?id=${post._id}`)
-
     }
 
     const handleDelete = async (post) => {
@@ -32,18 +31,13 @@ const MyProfile = () => {
                 await fetch(`/api/prompt/${post._id.toString()}`, { method: "DELETE" });
                 
                 const filteredPosts = posts.filter((p) => p._id !== post._id);
-                
-
             } catch(error) {
                 console.log(error);
             }
         }
-
     }
 
-
   return (
-    
       <Profile 
         name="My"
         desc="Welcome to your personalized profile page"
@@ -51,7 +45,6 @@ const MyProfile = () => {
         handleEdit={ handleEdit }
         handleDelete={ handleDelete }
       />
- 
   )
 }
 
