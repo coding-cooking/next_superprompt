@@ -11,6 +11,7 @@ const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
+    //getProviders() returns the list of providers currently configured for sign in
     const setUpProviders = async () => {
       const response = await getProviders();
 

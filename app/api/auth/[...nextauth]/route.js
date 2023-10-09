@@ -11,14 +11,15 @@ const handler = NextAuth({
 		}),
 	],
 	callbacks: {
+		//modify the user's session object before it is stored in the browser
 		async session({ session }) {
 			// store the user id from MongoDB to session
 			const sessionUser = await User.findOne({ email: session.user.email });
 			session.user.id = sessionUser._id.toString();
-
 			return session;
 		},
 		async signIn({ account, profile, user, credentials }) {
+			// console.log("==shisha=", account, profile, user, credentials);
 			try {
 				await connectToDB();
 
@@ -43,4 +44,4 @@ const handler = NextAuth({
 	},
 });
 
-export {handler as GET, handler as POST};
+export { handler as GET, handler as POST };

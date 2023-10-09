@@ -30,11 +30,6 @@ const EditPrompt = () => {
 
     },[promptId])
 
-
-
-
-
-
     const updatePrompt = async (e) => {
         e.preventDefault();
         setSubmitting(true);
