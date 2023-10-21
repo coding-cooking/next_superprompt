@@ -2,9 +2,17 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Profile from "@components/Profile";
+import Profile from "@/components/Profile";
 
-const UserProfile = ({params}) => {
+type UserProfileProps = {
+    params: {
+        username: string;
+        email: string;
+        image: string;
+        id: string;
+    }
+}
+const UserProfile = ({ params }: UserProfileProps) => {
     const [posts, setPosts] = useState([]);
     const searchParams = useSearchParams();
     const userName = searchParams.get("name");
@@ -12,7 +20,6 @@ const UserProfile = ({params}) => {
     const fetchPosts = async () => {
         const response = await fetch(`/api/users/${params?.id}/posts`);
         const data = await response.json();
-        console.log(8888, data)
         setPosts(data);
     }
 
@@ -22,9 +29,9 @@ const UserProfile = ({params}) => {
 
     return (
         <Profile
-            name={userName}
-            desc={ `Welcome to ${userName}'s personalized profile page` }
-            data={ posts }
+            name={userName ?? "Haha"}
+            desc={`Welcome to ${userName ?? "Haha"}'s personalized profile page`}
+            data={posts}
         />
     )
 

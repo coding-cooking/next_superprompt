@@ -1,6 +1,6 @@
 'use client';
 
-import Feed from "@components/Feed";
+import Feed from "@/components/Feed"; 
 import { useEffect } from "react";
 
 const Home = () => {

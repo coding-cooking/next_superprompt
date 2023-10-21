@@ -1,6 +1,15 @@
 import PromptCard from "./PromptCard"
+import { PostProps } from "./Feed"
 
-const Profile = ({name, desc, data, handleEdit, handleDelete}) => {
+export type ProfileProps = {
+  name: string;
+  desc: string;
+  handleEdit?: (args:PostProps) => void;
+  handleDelete?: (args: PostProps) => void;
+  data: PostProps[];
+}
+
+const Profile = ({ name, desc, data, handleEdit, handleDelete }: ProfileProps) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
@@ -13,8 +22,8 @@ const Profile = ({name, desc, data, handleEdit, handleDelete}) => {
             <PromptCard
               key={ post._id }
               post={ post }
-              handleEdit={() => handleEdit && handleEdit(post)}
-              handleDelete={() => handleDelete && handleDelete(post)}
+              handleEdit={(e) => handleEdit && handleEdit(post)}
+              handleDelete={(e) => handleDelete && handleDelete(post)}
             />
           ))
         }

@@ -1,11 +1,12 @@
-import { connectToDB } from "@utils/database";
-import Prompt from "@models/prompt";
+import { connectToDB } from "@/utils/database";
+import Prompt from "@/models/prompt";
+import { NextRequest } from "next/server";
+
 
 //GET(read)
-export const GET = async (request, { params }) => {
+export const GET = async (_: NextRequest, { params }: {params : {id: string}}) => {
 	try {
 		await connectToDB();
-        console.log(33333, params)
 
 		const prompt = await Prompt.findById(params.id).populate("creator");
         if(!prompt) return new Response("Prompt not found", { status: 404 })
@@ -19,7 +20,7 @@ export const GET = async (request, { params }) => {
 };
 
 //PATCH(update)
-export const PATCH = async (request, { params }) => {
+export const PATCH = async (request: NextRequest, { params }: { params: { id: string } }) => {
     const { prompt, tag } = await request.json();
 
     try {
@@ -42,7 +43,7 @@ export const PATCH = async (request, { params }) => {
 }
 
 //DELETE
-export const DELETE = async (request, { params }) => {
+export const DELETE = async (_: NextRequest, { params }: { params: { id: string } }) => {
     try {
         await connectToDB();
 

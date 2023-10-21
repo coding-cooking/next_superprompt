@@ -3,11 +3,13 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { signIn, signOut, useSession, getProviders } from "next-auth/react"
+import { signIn, signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider } from "next-auth/react"
+import { BuiltInProviderType } from "next-auth/providers/index"
 
-const Nav = () => {
+
+const Nav = ( ) => {
   const { data: session } = useSession();
-  const [providers, setProviders] = useState(null);
+  const [providers, setProviders] = useState<null | Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>>(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
@@ -36,12 +38,12 @@ const Nav = () => {
 
       {/* {desktop navigation} */}
       <div className="sm:flex hidden">
-        {session?.user ? (
+        {session?.user?.image? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Post
             </Link>
-            <button type="button" onClick={signOut} className="outline_btn">Sign Out</button>
+            <button type="button" onClick={(event: React.MouseEvent<HTMLButtonElement>) => signOut()} className="outline_btn">Sign Out</button>
             <Link href="/profile">
               <Image 
                 src={ session?.user.image }
@@ -68,7 +70,7 @@ const Nav = () => {
       </div>
       {/* mobile navigation */}
       <div className="sm:hidden flex relative">
-        {session?.user ? (
+        {session?.user?.image? (
           <div className="flex">
             <Image
               src={session?.user.image}

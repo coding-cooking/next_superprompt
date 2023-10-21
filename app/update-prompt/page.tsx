@@ -1,8 +1,9 @@
 "use client"
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Form from "@components/Form";
+import Form from "@/components/Form";
+import { PostProps } from "@/components/Feed";
+import { POST_TEMPLATE } from "../create-prompt/page";
 
 
 const EditPrompt = () => {
@@ -10,38 +11,33 @@ const EditPrompt = () => {
     const searchParams = useSearchParams();
     const promptId = searchParams.get("id");
     const [submitting, setSubmitting] = useState(false);
-    const [post, setPost] = useState({
-        prompt: "",
-        tag: "",
-    });
+    const [post, setPost] = useState<PostProps>(POST_TEMPLATE);
 
     useEffect(() => {
         const getPromptDetails = async () => {
             const response = await fetch(`/api/prompt/${promptId}`)
             const data = await response.json();
-
-            setPost({
-                prompt: data.prompt,
-                tag: data.tag,
-            })
+            setPost(data)
         }
 
-        if(promptId) getPromptDetails();
+        if (promptId) getPromptDetails();
 
-    },[promptId])
+    }, [promptId])
 
-    const updatePrompt = async (e) => {
+    const updatePrompt = async (e: FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
 
-        if(!promptId) return alert("Prompt ID not found")
+        if (!promptId) return alert("Prompt ID not found")
 
         try {
             const responce = await fetch(`/api/prompt/${promptId}`, {
                 method: "PATCH",
                 body: JSON.stringify({
-                    prompt: post.prompt,
-                    tag: post.tag
+                    prompt: post?.prompt,
+                    tag: post?.tag,
+                    creator: post?.creator,
+                    _id: post?._id,
                 })
             })
 
@@ -57,10 +53,10 @@ const EditPrompt = () => {
     return (
         <Form
             type="Edit"
-            post={ post }
-            setPost={ setPost }
-            submitting={ submitting }
-            handleSubmit={ updatePrompt }
+            post={post}
+            setPost={setPost}
+            submitting={submitting}
+            handleSubmit={updatePrompt}
         />
     )
 }

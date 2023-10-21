@@ -1,7 +1,8 @@
-import { connectToDB } from "@utils/database";
-import Prompt from "@models/prompt";
+import { connectToDB } from "@/utils/database";
+import Prompt from "@/models/prompt";
+import { NextRequest } from "next/server";
 
-export const GET = async (request, { params }) => {
+export const GET = async (_: NextRequest, { params }: { params: { id: string } }) => {
 	try {
 		await connectToDB();
 
